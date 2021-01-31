@@ -1,0 +1,45 @@
+
+cupcakes=# \dt
+          List of relations
+ Schema |   Name    | Type  |  Owner  
+--------+-----------+-------+---------
+ public | cupcakes  | table | vagrant
+ public | customers | table | vagrant
+ public | orders    | table | vagrant
+(3 rows)
+
+cupcakes=# \d cupcakes
+                     Table "public.cupcakes"
+ Column |          Type          | Collation | Nullable | Default 
+--------+------------------------+-----------+----------+---------
+ id     | integer                |           | not null | 
+ name   | character varying(255) |           |          | 
+Indexes:
+    "cupcakes_pkey" PRIMARY KEY, btree (id)
+
+cupcakes=# \d customers
+                     Table "public.customers"
+ Column |          Type          | Collation | Nullable | Default 
+--------+------------------------+-----------+----------+---------
+ id     | integer                |           | not null | 
+ fname  | character varying(255) |           |          | 
+ lname  | character varying(255) |           |          | 
+ email  | character varying(255) |           |          | 
+Indexes:
+    "customers_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "orders" CONSTRAINT "orders_customer_id_fkey" FOREIGN KEY (customer_id) REFERENCES customers(id)
+
+cupcakes=# \d orders
+                  Table "public.orders"
+    Column    |  Type   | Collation | Nullable | Default 
+--------------+---------+-----------+----------+---------
+ id           | integer |           | not null | 
+ customer_id  | integer |           | not null | 
+ cupcake_id   | integer |           | not null | 
+ num_cupcakes | integer |           | not null | 
+ processed    | boolean |           |          | 
+Indexes:
+    "orders_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "orders_customer_id_fkey" FOREIGN KEY (customer_id) REFERENCES customers(id)
